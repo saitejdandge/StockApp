@@ -25,7 +25,7 @@ abstract class AppModule {
 
         return new Retrofit
                 .Builder()
-                .baseUrl("http://theshapedev.ap-south-1.elasticbeanstalk.com/")
+                .baseUrl("https://indiawealth.in/api/v1/equity/foreign-stocks/category/all/")
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create()).build();
     }

@@ -16,8 +16,8 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
     private final MutableLiveData<StockListDatasource> basePagedDatasourceMutableLiveData = new MutableLiveData<>();
     private final FindQuery findQuery;
 
-    public StockPagedDataSourceFactory(StockService baseCrudInstance, FindQuery findQuery) {
-        this.stockService = baseCrudInstance;
+    public StockPagedDataSourceFactory(StockService stockService, FindQuery findQuery) {
+        this.stockService = stockService;
         this.findQuery = findQuery;
     }
 
