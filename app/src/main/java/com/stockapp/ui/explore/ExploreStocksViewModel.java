@@ -2,6 +2,7 @@ package com.stockapp.ui.explore;
 
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
@@ -21,11 +22,20 @@ public class ExploreStocksViewModel extends BaseViewModel {
     private final StockPagedDataSourceFactory basePagedDataSourceFactory;
     private final LiveData<ResourceStatus> networkState;
     private final LiveData<PagedList<StockListItem>> stockList;
+    private MutableLiveData<String> searchQuery;
 
+    public MutableLiveData<String> getSearchQuery() {
+        return searchQuery;
+    }
+
+    public StockPagedDataSourceFactory getBasePagedDataSourceFactory() {
+        return basePagedDataSourceFactory;
+    }
 
     @Inject
     ExploreStocksViewModel(StockService stockService) {
-        FindQuery findQuery = new FindQuery.Builder().skip(1).build();
+        searchQuery = new MutableLiveData<>();
+        FindQuery findQuery = new FindQuery.Builder().skip(1).query(null).build();
         this.basePagedDataSourceFactory = new StockPagedDataSourceFactory(stockService, findQuery);
         // Initial page size to fetch can also be configured here too
         PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(true).setPrefetchDistance(5).build();

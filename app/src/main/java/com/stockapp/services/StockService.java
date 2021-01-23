@@ -9,6 +9,8 @@ import com.stockapp.network.apis.StockApi;
 import com.stockapp.network.responses.StockListResponse;
 import com.stockapp.paging.SCallback;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -29,7 +31,14 @@ public class StockService {
 
     public MutableLiveData<Resource<StockListResponse>> findStocks(FindQuery findQuery, SCallback callback) {
         final MutableLiveData<Resource<StockListResponse>> baseResponseMutableLiveData = new MutableLiveData<>();
-        stockApi.findStocks(findQuery.getSkip() + "", findQuery.getLimit() + "", "mcap").enqueue(new Callback<StockListResponse>() {
+
+        HashMap<String, String> queryMap = new HashMap<>();
+        queryMap.put("page", findQuery.getSkip() + "");
+        queryMap.put("limit", findQuery.getLimit() + "");
+        queryMap.put("sort_key", findQuery.getSort());
+        if (findQuery.getQuery() != null && findQuery.getQuery().trim().length() != 0)
+            queryMap.put("term", findQuery.getQuery());
+        stockApi.findStocks(queryMap).enqueue(new Callback<StockListResponse>() {
             @Override
             public void onResponse(@NonNull Call<StockListResponse> call, @NonNull Response<StockListResponse> response) {
                 if (response.isSuccessful()) {

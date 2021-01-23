@@ -29,6 +29,9 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
         return basePagedDatasourceMutableLiveData;
     }
 
+    public void setQuery(String query){
+        dataSource.setQuery(query);
+    }
     @NonNull
     @Override
     public DataSource create() {

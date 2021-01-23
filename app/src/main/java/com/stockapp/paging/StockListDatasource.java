@@ -30,6 +30,10 @@ public class StockListDatasource extends PageKeyedDataSource<Integer, StockListI
         this.findQuery = findQuery;
     }
 
+    public void setQuery(String query) {
+        this.findQuery.setQuery(query);
+    }
+
     public MutableLiveData<ResourceStatus> getNetworkState() {
         return networkState;
     }

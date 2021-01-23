@@ -3,14 +3,12 @@ package com.sdk.network;
 public class FindQuery {
 
     private String query;
-    private String projection;
     private String sort;
     private int limit;
     private int skip;
 
-    private FindQuery(String query, String projection, String sort, int limit, int skip) {
+    private FindQuery(String query, String sort, int limit, int skip) {
         this.query = query;
-        this.projection = projection;
         this.sort = sort;
         this.limit = limit;
         this.skip = skip;
@@ -23,14 +21,6 @@ public class FindQuery {
     public FindQuery setQuery(String query) {
         this.query = query;
         return this;
-    }
-
-    public String getProjection() {
-        return projection;
-    }
-
-    public void setProjection(String projection) {
-        this.projection = projection;
     }
 
     public String getSort() {
@@ -61,9 +51,8 @@ public class FindQuery {
 
     public static class Builder {
 
-        private String query = "{}";
-        private String projection = "{}";
-        private String sort = "{}";
+        private String query = null;
+        private String sort = "mcap";
         private int limit, skip;
 
 
@@ -72,10 +61,6 @@ public class FindQuery {
             return this;
         }
 
-        public FindQuery.Builder projection(String projection) {
-            this.projection = projection;
-            return this;
-        }
 
 
         public FindQuery.Builder sort(String sort) {
@@ -94,7 +79,7 @@ public class FindQuery {
         }
 
         public FindQuery build() {
-            return new FindQuery(this.query, this.projection, this.sort, this.limit, this.skip);
+            return new FindQuery(this.query,  this.sort, this.limit, this.skip);
         }
     }
 }
