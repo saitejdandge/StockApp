@@ -25,13 +25,12 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
 
 
     RecyclerView recyclerView;
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
     private View loadingView;
     private View errorView;
     private TextInputEditText searchEditText;
     private SwipeRefreshLayout swipeRefreshLayout;
-    @Inject
-    ViewModelProviderFactory viewModelProviderFactory;
-
     private StockListAdapter stockListAdapter;
 
     public static ExploreStocksFragment newInstance() {
@@ -51,7 +50,7 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
     }
 
     private void initViews(View view) {
-        stockListAdapter = new StockListAdapter();
+        stockListAdapter = new StockListAdapter(getContext());
         recyclerView = view.findViewById(R.id.recyclerView);
         loadingView = view.findViewById(R.id.loadingView);
         searchEditText = view.findViewById(R.id.searchEditText);

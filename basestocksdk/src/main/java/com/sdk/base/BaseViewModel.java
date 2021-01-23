@@ -1,6 +1,15 @@
 package com.sdk.base;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class BaseViewModel extends ViewModel {
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+
+public class BaseViewModel extends AndroidViewModel {
+    Application application;
+
+    public BaseViewModel(@NonNull Application application) {
+        super(application);
+        this.application = application;
+    }
 }

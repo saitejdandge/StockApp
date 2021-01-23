@@ -1,7 +1,9 @@
 package com.stockapp.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,6 +14,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.stockapp.R;
 import com.stockapp.databinding.StockListItemBinding;
 import com.stockapp.models.StockListItem;
@@ -36,9 +39,12 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
         }
     };
 
+    SharedPreferences sharedPreferences;
+
     @Inject
-    public StockListAdapter() {
+    public StockListAdapter(Context context) {
         super(DIFF_CALLBACK);
+        sharedPreferences = context.getSharedPreferences("list", Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -51,24 +57,36 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
     @Override
     public void onBindViewHolder(@NonNull StockListViewHolder holder, int position) {
 
-        if (getItem(position) != null) {
-            holder.binding.setStock(getItem(position));
+        StockListItem stockListItem = getItem(position);
+        if (stockListItem != null) {
+            holder.binding.setStock(stockListItem);
             holder.itemView.setOnClickListener(v ->
             {
                 Intent intent = new Intent(v.getContext(), StockDetailsActivity.class);
                 intent.putExtra(POST_DATA, getItem(position));
                 v.getContext().startActivity(intent);
             });
-//            StockListItem stockListItem = getItem(position);
-//            if (stockListItem.getChange() >= 0) {
-//                holder.binding.triangle.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.green_triangle));
-////                holder.binding.change.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorGreen));
-//            } else {
-////                holder.binding.change.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorRed));
-//                holder.binding.triangle.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.red_triangle));
-//
-//            }
+            if (this.sharedPreferences.getAll().keySet() != null && this.sharedPreferences.getAll().containsKey(stockListItem.getId() + "")) {
+                holder.binding.add.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_done_black_18dp));
+                holder.binding.add.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rounded_rectangle_selected));
+                holder.binding.add.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+            } else {
+                holder.binding.add.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_add_black_18dp));
+                holder.binding.add.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rounded_rectangle));
+                holder.binding.add.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
 
+            }
+            holder.binding.add.setOnClickListener(v -> {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                StockListItem stockListItem1 = getItem(position);
+                if (this.sharedPreferences.getAll().keySet() != null && this.sharedPreferences.getAll().containsKey(stockListItem1.getId() + "")) {
+                    editor.remove(stockListItem1.getId() + "");
+                } else {
+                    editor.putString(stockListItem1.getId() + "", new Gson().toJson(stockListItem1));
+                }
+                editor.apply();
+                notifyItemChanged(position);
+            });
         }
     }
 

@@ -12,9 +12,9 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
 
 
     private final StockService stockService;
-    private StockListDatasource dataSource;
     private final MutableLiveData<StockListDatasource> basePagedDatasourceMutableLiveData = new MutableLiveData<>();
     private final FindQuery findQuery;
+    private StockListDatasource dataSource;
 
     public StockPagedDataSourceFactory(StockService stockService, FindQuery findQuery) {
         this.stockService = stockService;
@@ -29,9 +29,10 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
         return basePagedDatasourceMutableLiveData;
     }
 
-    public void setQuery(String query){
+    public void setQuery(String query) {
         dataSource.setQuery(query);
     }
+
     @NonNull
     @Override
     public DataSource create() {

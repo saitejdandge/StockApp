@@ -1,6 +1,8 @@
 package com.stockapp.ui.explore;
 
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -12,17 +14,30 @@ import com.sdk.network.FindQuery;
 import com.sdk.network.ResourceStatus;
 import com.stockapp.models.StockListItem;
 import com.stockapp.paging.StockPagedDataSourceFactory;
-import com.stockapp.services.StockService;
+import com.stockapp.repositories.StockRepo;
 
 import javax.inject.Inject;
 
 public class ExploreStocksViewModel extends BaseViewModel {
 
-
     private final StockPagedDataSourceFactory basePagedDataSourceFactory;
     private final LiveData<ResourceStatus> networkState;
     private final LiveData<PagedList<StockListItem>> stockList;
-    private MutableLiveData<String> searchQuery;
+    private final MutableLiveData<String> searchQuery;
+    private StockRepo stockRepo;
+
+    @Inject
+    ExploreStocksViewModel(Application application, StockRepo stockRepo) {
+        super(application);
+        searchQuery = new MutableLiveData<>();
+        this.stockRepo = stockRepo;
+        FindQuery findQuery = new FindQuery.Builder().skip(1).query(null).build();
+        this.basePagedDataSourceFactory = new StockPagedDataSourceFactory(this.stockRepo.getStockService(), findQuery);
+        // Initial page size to fetch can also be configured here too
+        PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(true).setPrefetchDistance(5).build();
+        stockList = new LivePagedListBuilder(basePagedDataSourceFactory, config).build();
+        networkState = Transformations.switchMap(basePagedDataSourceFactory.getBasePagedDatasourceMutableLiveData(), dataSource -> dataSource.getNetworkState());
+    }
 
     public MutableLiveData<String> getSearchQuery() {
         return searchQuery;
@@ -30,17 +45,6 @@ public class ExploreStocksViewModel extends BaseViewModel {
 
     public StockPagedDataSourceFactory getBasePagedDataSourceFactory() {
         return basePagedDataSourceFactory;
-    }
-
-    @Inject
-    ExploreStocksViewModel(StockService stockService) {
-        searchQuery = new MutableLiveData<>();
-        FindQuery findQuery = new FindQuery.Builder().skip(1).query(null).build();
-        this.basePagedDataSourceFactory = new StockPagedDataSourceFactory(stockService, findQuery);
-        // Initial page size to fetch can also be configured here too
-        PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(true).setPrefetchDistance(5).build();
-        stockList = new LivePagedListBuilder(basePagedDataSourceFactory, config).build();
-        networkState = Transformations.switchMap(basePagedDataSourceFactory.getBasePagedDatasourceMutableLiveData(), dataSource -> dataSource.getNetworkState());
     }
 
     void invalidateList() {

@@ -13,6 +13,17 @@ import java.text.DecimalFormat;
 public class StockListItem extends BaseModel implements Parcelable {
 
 
+    public static final Creator<StockListItem> CREATOR = new Creator<StockListItem>() {
+        @Override
+        public StockListItem createFromParcel(Parcel in) {
+            return new StockListItem(in);
+        }
+
+        @Override
+        public StockListItem[] newArray(int size) {
+            return new StockListItem[size];
+        }
+    };
     @SerializedName("company_code")
     @Expose
     private String companyCode;
@@ -52,6 +63,9 @@ public class StockListItem extends BaseModel implements Parcelable {
     @SerializedName("logo")
     @Expose
     private String logo;
+
+    protected StockListItem(Parcel in) {
+    }
 
     public String getCompanyCode() {
         return companyCode;
@@ -119,22 +133,6 @@ public class StockListItem extends BaseModel implements Parcelable {
     public String getLogo() {
         return logo;
     }
-
-    protected StockListItem(Parcel in) {
-    }
-
-    public static final Creator<StockListItem> CREATOR = new Creator<StockListItem>() {
-        @Override
-        public StockListItem createFromParcel(Parcel in) {
-            return new StockListItem(in);
-        }
-
-        @Override
-        public StockListItem[] newArray(int size) {
-            return new StockListItem[size];
-        }
-    };
-
 
     @Override
     public int describeContents() {
