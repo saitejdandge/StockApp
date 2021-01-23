@@ -2,7 +2,6 @@ package com.stockapp.ui;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -11,7 +10,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.stockapp.R;
 
-public class BottomNavigationActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class BottomNavigationActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

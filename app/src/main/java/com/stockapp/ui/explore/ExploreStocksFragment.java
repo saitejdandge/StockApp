@@ -56,6 +56,7 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
             ExploreStocksFragment.this.getViewModel().invalidateList();
         });
         retry.setOnClickListener(v -> this.getViewModel().invalidateList());
+        recyclerView.setAdapter(stockListAdapter);
     }
 
 

@@ -29,7 +29,7 @@ public class StockService {
 
     public MutableLiveData<Resource<StockListResponse>> findStocks(FindQuery findQuery, SCallback callback) {
         final MutableLiveData<Resource<StockListResponse>> baseResponseMutableLiveData = new MutableLiveData<>();
-        stockApi.findStocks(findQuery.getQuery(), findQuery.getSort()).enqueue(new Callback<StockListResponse>() {
+        stockApi.findStocks(findQuery.getSkip() + "", findQuery.getLimit() + "", "mcap").enqueue(new Callback<StockListResponse>() {
             @Override
             public void onResponse(@NonNull Call<StockListResponse> call, @NonNull Response<StockListResponse> response) {
                 if (response.isSuccessful()) {

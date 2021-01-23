@@ -25,7 +25,7 @@ public class ExploreStocksViewModel extends BaseViewModel {
 
     @Inject
     ExploreStocksViewModel(StockService stockService) {
-        FindQuery findQuery = new FindQuery.Builder().build();
+        FindQuery findQuery = new FindQuery.Builder().skip(1).build();
         this.basePagedDataSourceFactory = new StockPagedDataSourceFactory(stockService, findQuery);
         // Initial page size to fetch can also be configured here too
         PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(true).setPrefetchDistance(5).build();

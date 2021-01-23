@@ -24,7 +24,7 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
     private static DiffUtil.ItemCallback<StockListItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<StockListItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull StockListItem oldItem, @NonNull StockListItem newItem) {
-            return !oldItem._id.equals(newItem._id);
+            return !oldItem.getId().equals(newItem.getId());
         }
 
         //todo add equality check

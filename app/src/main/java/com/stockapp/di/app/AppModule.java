@@ -25,15 +25,9 @@ abstract class AppModule {
 
         return new Retrofit
                 .Builder()
-                .baseUrl("https://indiawealth.in/api/v1/equity/foreign-stocks/category/all/")
+                .baseUrl("https://indiawealth.in/")
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create()).build();
     }
 
-
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(CancelOrderBottomsheetViewModel.class)
-//    public abstract ViewModel bindCancelOrderBottomsheetViewModel(CancelOrderBottomsheetViewModel viewModel);
-//
 }
