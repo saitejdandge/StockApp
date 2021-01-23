@@ -18,7 +18,6 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
-    private ExploreStocksViewModel mViewModel;
 
     public static ExploreStocksFragment newInstance() {
         return new ExploreStocksFragment();

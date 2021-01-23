@@ -1,4 +1,4 @@
-package com.stockapp.ui.search;
+package com.stockapp.ui.stock_details;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,21 +11,22 @@ import androidx.annotation.Nullable;
 import com.sdk.base.BaseFragment;
 import com.stockapp.R;
 
-public class SearchFragment extends BaseFragment<SearchViewModel> {
+public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
+
+    public static StockDetailsFragment newInstance() {
+        return new StockDetailsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.search_fragment, container, false);
+        return inflater.inflate(R.layout.stock_details_fragment2, container, false);
     }
 
     @NonNull
     @Override
-    protected Class<SearchViewModel> viewModel() {
-        return SearchViewModel.class;
+    protected Class<StockDetailsViewModel> viewModel() {
+        return StockDetailsViewModel.class;
     }
 }

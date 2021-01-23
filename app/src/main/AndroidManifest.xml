@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockApp">
-        <activity android:name=".SearchActivity"></activity>
-        <activity android:name=".HomeActivity">
+        <activity android:name=".ui.activities.StockDetailsActivity"></activity>
+        <activity android:name=".ui.activities.SearchActivity" />
+        <activity android:name=".ui.activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,6 +1,8 @@
-package com.stockapp;
+package com.stockapp.ui.activities;
 
 import android.os.Bundle;
+
+import com.stockapp.R;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
