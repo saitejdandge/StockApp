@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="loadingColor">#dddddd</color>
+    <color name="colorGreen">#00C691</color>
+    <color name="colorRed">@android:color/holo_red_dark</color>
+    <!--    text emphasis color levels-->
+    <color name="highEmphasis">#DE000000</color>
+    <color name="mediumEmphasis">#99000000</color>
+    <color name="pureEmphasis">#000000</color>
+
 </resources>

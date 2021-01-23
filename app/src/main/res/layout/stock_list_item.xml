@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -16,78 +15,127 @@
     </data>
 
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="32dp"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:cardCornerRadius="32dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:orientation="vertical">
 
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    loadImage="@{stock.logo}"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_launcher" />
 
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        loadImage="@{stock.logo}"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/ic_launcher" />
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toStartOf="@+id/add"
+                    android:layout_toLeftOf="@+id/add"
+                    android:layout_toEndOf="@+id/logo"
+                    android:layout_toRightOf="@+id/logo"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="8dp"
-                        android:textStyle="bold"
-                        tools:text="@{stock.name}" />
+                        android:text="@{stock.name}"
+                        android:textColor="@color/highEmphasis"
+                        android:textSize="16sp"
+                        tools:text="Apple" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@{stock.marketCap}"
+                        android:textSize="12sp"
+                        tools:text="Mid Cap" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginRight="12dp"
+                            android:text="@{stock.getFormattedPrice()}"
+                            android:textColor="@color/mediumEmphasis"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="$157.00" />
+
+
+                        <ImageView
+                            android:id="@+id/triangle"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@{stock.change>=0?@drawable/green_triangle:@drawable/red_triangle}"
+                            tools:src="@drawable/green_triangle" />
+
+                        <TextView
+                            android:id="@+id/change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{stock.getFormattedChange()}"
+                            android:textColor="@{stock.change>=0?@color/colorGreen:@color/colorRed}"
+                            android:textSize="12sp"
+                            tools:text="1.23% ($123)" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <TextView
+                <ImageView
+                    android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="@{stock.getFormattedPrice()}"
-                    android:textColor="@android:color/black"
-                    android:textSize="21sp"
-                    android:textStyle="bold" />
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/rounded_rectangle"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_add_black_18dp" />
+
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{stock.marketCap}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-
-                    android:textColor="@android:color/holo_green_dark" />
-            </RelativeLayout>
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="6dp"
+            android:background="#DADADA" />
+
+    </LinearLayout>
 </layout>

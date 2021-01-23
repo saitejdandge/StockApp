@@ -2,10 +2,13 @@ package com.stockapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sdk.base.BaseModel;
+
+import java.text.DecimalFormat;
 
 public class StockListItem extends BaseModel implements Parcelable {
 
@@ -76,6 +79,17 @@ public class StockListItem extends BaseModel implements Parcelable {
 
     public String getFormattedPrice() {
         return "$ " + this.price + "";
+    }
+
+    public String getFormattedChange() {
+        try {
+            DecimalFormat f = new DecimalFormat("##.00");
+            return f.format(this.change) + "% ($" + f.format(this.priceDiff) + ")";
+        } catch (Exception e) {
+            Log.v("etest", e.getLocalizedMessage() + " " + this.change + " " + this.priceDiff);
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public Double getPrice() {
