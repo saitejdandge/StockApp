@@ -98,7 +98,11 @@ public class StockListItem extends BaseModel implements Parcelable {
     public String getFormattedChange() {
         try {
             DecimalFormat f = new DecimalFormat("#.00");
-            return f.format(this.change) + "% ($" + f.format(this.priceDiff) + ")";
+            String s="";
+            if(this.change!=null)
+                s+=f.format(this.change) + "% ";
+            s+=("($" + f.format(this.priceDiff) + ")");
+            return s;
         } catch (Exception e) {
             Log.v("etest", e.getLocalizedMessage() + " " + this.change + " " + this.priceDiff);
             e.printStackTrace();

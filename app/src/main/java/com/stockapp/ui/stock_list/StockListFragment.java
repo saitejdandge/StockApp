@@ -28,7 +28,6 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
     RecyclerView recyclerView;
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
-    Boolean isWatchList;
     private View loadingView;
     private View errorView;
     private TextInputEditText searchEditText;
@@ -43,7 +42,7 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.isWatchList = getArguments().getBoolean("isWatchList");
+        this.getViewModel().getIsWatchList().setValue(getArguments().getBoolean("isWatchList"));
         initViews(view);
         loadData();
     }
@@ -82,7 +81,7 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
 
     private void loadData() {
 
-        getViewModel().loadStocks(isWatchList, this.getViewModel().getWatchListMap(getContext().getSharedPreferences("list", Context.MODE_PRIVATE).getAll()));
+        getViewModel().loadStocks(getViewModel().getIsWatchList().getValue(), this.getViewModel().getWatchListMap(getContext().getSharedPreferences("list", Context.MODE_PRIVATE).getAll()));
         getViewModel().getNetworkState().observe(getViewLifecycleOwner(), networkState -> {
                     switch (networkState) {
                         case SUCCESS:
@@ -111,7 +110,7 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
             public void onChanged(String s) {
                 StockListFragment.this.getViewModel().invalidateList();
                 if (s.trim().length() == 0) {
-                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setWatchList(isWatchList);
+                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setWatchList(getViewModel().getIsWatchList().getValue());
                     StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setQuery(null);
                 } else {
                     StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setWatchList(false);

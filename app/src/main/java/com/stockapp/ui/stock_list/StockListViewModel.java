@@ -28,12 +28,18 @@ public class StockListViewModel extends BaseViewModel {
     private LiveData<ResourceStatus> networkState;
     private LiveData<PagedList<StockListItem>> stockList;
     private final MutableLiveData<String> searchQuery;
+    private MutableLiveData<Boolean> isWatchList;
     private StockRepo stockRepo;
+
+    public MutableLiveData<Boolean> getIsWatchList() {
+        return isWatchList;
+    }
 
     @Inject
     StockListViewModel(Application application, StockRepo stockRepo) {
         super(application);
         searchQuery = new MutableLiveData<>();
+        isWatchList=new MutableLiveData<>();
         this.stockRepo = stockRepo;
     }
 
@@ -72,7 +78,7 @@ public class StockListViewModel extends BaseViewModel {
         HashMap<String, StockListItem> output = new HashMap<>();
         Gson gson = new Gson();
         for (Map.Entry<String, ?> entry : map.entrySet()) {
-            output.put(entry.getKey(), gson.fromJson(entry.getValue()+"", StockListItem.class));
+            output.put(entry.getKey(), gson.fromJson(entry.getValue() + "", StockListItem.class));
         }
         return output;
     }

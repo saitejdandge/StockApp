@@ -35,12 +35,14 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
     }
 
     public void setQuery(String query) {
-        dataSource.setQuery(query);
+        if (dataSource != null)
+            dataSource.setQuery(query);
     }
 
 
     public void setWatchList(Boolean watchList) {
-        dataSource.setWatchList(watchList);
+        if (dataSource != null)
+            dataSource.setWatchList(watchList);
     }
 
     @NonNull
