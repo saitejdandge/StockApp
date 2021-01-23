@@ -19,7 +19,9 @@ import javax.inject.Inject;
 
 public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> {
 
+
     RecyclerView recyclerView;
+    private View mainView;
     private View loadingView;
     private View errorView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -50,6 +52,7 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
         loadingView = view.findViewById(R.id.loadingView);
         errorView = view.findViewById(R.id.errorView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        mainView=view.findViewById(R.id.mainView);
         View retry = view.findViewById(R.id.retry);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);
@@ -65,18 +68,18 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
                     switch (networkState) {
                         case SUCCESS:
                             loadingView.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
+                            mainView.setVisibility(View.VISIBLE);
                             errorView.setVisibility(View.GONE);
                             break;
                         case LOADING:
                             loadingView.setVisibility(View.VISIBLE);
                             errorView.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.GONE);
+                            mainView.setVisibility(View.GONE);
                             break;
                         case ERROR:
                             loadingView.setVisibility(View.GONE);
                             errorView.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
+                            mainView.setVisibility(View.GONE);
                             break;
                     }
                 }
