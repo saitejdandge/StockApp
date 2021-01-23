@@ -1,4 +1,4 @@
-package com.example.basestocksdk;
+package com.sdk.base;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ViewModelProviderFactory;
+import com.sdk.ViewModelProviderFactory;
 
 import javax.inject.Inject;
 

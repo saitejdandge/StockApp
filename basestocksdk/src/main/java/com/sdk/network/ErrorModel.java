@@ -1,4 +1,4 @@
-package com.example.network;
+package com.sdk.network;
 
 import android.graphics.drawable.Drawable;
 

@@ -2,7 +2,7 @@ package com.stockapp.di;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ViewModelProviderFactory;
+import com.sdk.ViewModelProviderFactory;
 
 import dagger.Binds;
 import dagger.Module;

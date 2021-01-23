@@ -1,7 +1,7 @@
 package com.stockapp.ui.wishlist;
 
 
-import com.example.basestocksdk.BaseViewModel;
+import com.sdk.base.BaseViewModel;
 
 import javax.inject.Inject;
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.basestocksdk.BaseFragment;
+import com.sdk.base.BaseFragment;
 import com.stockapp.R;
 
 public class SearchFragment extends BaseFragment<SearchViewModel> {

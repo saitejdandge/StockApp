@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.ViewModelProviderFactory;
-import com.example.basestocksdk.BaseFragment;
+import com.sdk.ViewModelProviderFactory;
+import com.sdk.base.BaseFragment;
 import com.stockapp.R;
 
 import javax.inject.Inject;

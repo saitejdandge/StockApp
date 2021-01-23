@@ -1,4 +1,4 @@
-package com.example.network;
+package com.sdk.network;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

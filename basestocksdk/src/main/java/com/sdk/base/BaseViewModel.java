@@ -1,4 +1,4 @@
-package com.example.basestocksdk;
+package com.sdk.base;
 
 import androidx.lifecycle.ViewModel;
 
