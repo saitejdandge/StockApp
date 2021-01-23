@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
 import com.sdk.network.FindQuery;
+import com.stockapp.models.StockListItem;
 import com.stockapp.services.StockService;
+
+import java.util.HashMap;
 
 
 public class StockPagedDataSourceFactory extends DataSource.Factory {
@@ -14,11 +17,13 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
     private final StockService stockService;
     private final MutableLiveData<StockListDatasource> basePagedDatasourceMutableLiveData = new MutableLiveData<>();
     private final FindQuery findQuery;
+    private final HashMap<String, StockListItem> watchList;
     private StockListDatasource dataSource;
 
-    public StockPagedDataSourceFactory(StockService stockService, FindQuery findQuery) {
+    public StockPagedDataSourceFactory(HashMap<String, StockListItem> watchList, StockService stockService, FindQuery findQuery) {
         this.stockService = stockService;
         this.findQuery = findQuery;
+        this.watchList = watchList;
     }
 
     public StockListDatasource getDataSource() {
@@ -33,10 +38,15 @@ public class StockPagedDataSourceFactory extends DataSource.Factory {
         dataSource.setQuery(query);
     }
 
+
+    public void setWatchList(Boolean watchList) {
+        dataSource.setWatchList(watchList);
+    }
+
     @NonNull
     @Override
     public DataSource create() {
-        dataSource = new StockListDatasource(stockService, this.findQuery);
+        dataSource = new StockListDatasource(watchList, stockService, this.findQuery);
         // Keep reference to the data source with a MutableLiveData reference
         // Use to hold a reference to the
         basePagedDatasourceMutableLiveData.postValue(dataSource);

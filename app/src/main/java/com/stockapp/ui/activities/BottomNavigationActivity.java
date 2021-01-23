@@ -1,4 +1,4 @@
-package com.stockapp.ui;
+package com.stockapp.ui.activities;
 
 import android.os.Bundle;
 

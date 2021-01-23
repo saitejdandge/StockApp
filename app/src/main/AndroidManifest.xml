@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StockApp">
         <activity
-            android:name=".ui.BottomNavigationActivity"
+            android:name=".ui.activities.BottomNavigationActivity"
             android:label="Stock App">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.StockDetailsActivity" />
-        <activity android:name=".ui.activities.SearchActivity" />
-        <activity android:name=".ui.activities.HomeActivity">
 
-        </activity>
     </application>
 
 </manifest>

@@ -7,14 +7,24 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.stockapp.ui.explore.ExploreStocksFragment"
+        android:name="com.stockapp.ui.stock_list.StockListFragment"
         android:label="Explore"
-        tools:layout="@layout/explore_stocks_fragment" />
+        tools:layout="@layout/explore_stocks_fragment">
+        <argument
+            android:name="isWatchList"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.stockapp.ui.wishlist.WishListFragment"
+        android:name="com.stockapp.ui.stock_list.StockListFragment"
         android:label="WatchList"
-        tools:layout="@layout/wish_list_fragment" />
+        tools:layout="@layout/explore_stocks_fragment">
+        <argument
+            android:name="isWatchList"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

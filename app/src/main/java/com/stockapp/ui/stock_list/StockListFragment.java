@@ -1,5 +1,6 @@
-package com.stockapp.ui.explore;
+package com.stockapp.ui.stock_list;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,21 +22,18 @@ import com.stockapp.adapters.StockListAdapter;
 
 import javax.inject.Inject;
 
-public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> {
+public class StockListFragment extends BaseFragment<StockListViewModel> {
 
 
     RecyclerView recyclerView;
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
+    Boolean isWatchList;
     private View loadingView;
     private View errorView;
     private TextInputEditText searchEditText;
     private SwipeRefreshLayout swipeRefreshLayout;
     private StockListAdapter stockListAdapter;
-
-    public static ExploreStocksFragment newInstance() {
-        return new ExploreStocksFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +43,7 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.isWatchList = getArguments().getBoolean("isWatchList");
         initViews(view);
         loadData();
     }
@@ -59,7 +58,7 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
         View retry = view.findViewById(R.id.retry);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);
-            ExploreStocksFragment.this.getViewModel().invalidateList();
+            StockListFragment.this.getViewModel().invalidateList();
         });
         retry.setOnClickListener(v -> this.getViewModel().invalidateList());
         recyclerView.setAdapter(stockListAdapter);
@@ -76,13 +75,14 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
 
             @Override
             public void afterTextChanged(Editable s) {
-                ExploreStocksFragment.this.getViewModel().getSearchQuery().setValue(s.toString());
+                StockListFragment.this.getViewModel().getSearchQuery().setValue(s.toString());
             }
         });
     }
 
-
     private void loadData() {
+
+        getViewModel().loadStocks(isWatchList, this.getViewModel().getWatchListMap(getContext().getSharedPreferences("list", Context.MODE_PRIVATE).getAll()));
         getViewModel().getNetworkState().observe(getViewLifecycleOwner(), networkState -> {
                     switch (networkState) {
                         case SUCCESS:
@@ -109,20 +109,22 @@ public class ExploreStocksFragment extends BaseFragment<ExploreStocksViewModel> 
         this.getViewModel().getSearchQuery().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
+                StockListFragment.this.getViewModel().invalidateList();
                 if (s.trim().length() == 0) {
-                    ExploreStocksFragment.this.getViewModel().invalidateList();
-                    ExploreStocksFragment.this.getViewModel().getBasePagedDataSourceFactory().setQuery(null);
+                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setWatchList(isWatchList);
+                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setQuery(null);
                 } else {
-                    ExploreStocksFragment.this.getViewModel().invalidateList();
-                    ExploreStocksFragment.this.getViewModel().getBasePagedDataSourceFactory().setQuery(s);
+                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setWatchList(false);
+                    StockListFragment.this.getViewModel().getBasePagedDataSourceFactory().setQuery(s);
                 }
             }
         });
+
     }
 
     @NonNull
     @Override
-    protected Class<ExploreStocksViewModel> viewModel() {
-        return ExploreStocksViewModel.class;
+    protected Class<StockListViewModel> viewModel() {
+        return StockListViewModel.class;
     }
 }

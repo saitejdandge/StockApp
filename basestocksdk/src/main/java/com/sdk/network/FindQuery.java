@@ -6,12 +6,18 @@ public class FindQuery {
     private String sort;
     private int limit;
     private int skip;
+    private Boolean isWatchList;
 
-    private FindQuery(String query, String sort, int limit, int skip) {
+    public Boolean isWatchList() {
+        return isWatchList;
+    }
+
+    private FindQuery(String query, String sort, int limit, int skip, Boolean isWatchList) {
         this.query = query;
         this.sort = sort;
         this.limit = limit;
         this.skip = skip;
+        this.isWatchList = isWatchList;
     }
 
     public String getQuery() {
@@ -21,6 +27,10 @@ public class FindQuery {
     public FindQuery setQuery(String query) {
         this.query = query;
         return this;
+    }
+
+    public void setWatchList(boolean watchList) {
+        isWatchList = watchList;
     }
 
     public String getSort() {
@@ -54,14 +64,17 @@ public class FindQuery {
         private String query = null;
         private String sort = "mcap";
         private int limit, skip;
-
+        private Boolean isWatchList;
 
         public FindQuery.Builder query(String query) {
             this.query = query;
             return this;
         }
 
-
+        public FindQuery.Builder watchList(Boolean isWatchList) {
+            this.isWatchList = isWatchList;
+            return this;
+        }
 
         public FindQuery.Builder sort(String sort) {
             this.sort = sort;
@@ -79,7 +92,7 @@ public class FindQuery {
         }
 
         public FindQuery build() {
-            return new FindQuery(this.query,  this.sort, this.limit, this.skip);
+            return new FindQuery(this.query, this.sort, this.limit, this.skip, this.isWatchList);
         }
     }
 }
