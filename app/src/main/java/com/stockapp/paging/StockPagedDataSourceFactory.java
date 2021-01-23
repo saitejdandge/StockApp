@@ -11,18 +11,14 @@ import com.stockapp.services.StockService;
 public class StockPagedDataSourceFactory extends DataSource.Factory {
 
 
-    private StockService stockService;
+    private final StockService stockService;
     private StockListDatasource dataSource;
-    private MutableLiveData<StockListDatasource> basePagedDatasourceMutableLiveData = new MutableLiveData<>();
-    private FindQuery findQuery;
+    private final MutableLiveData<StockListDatasource> basePagedDatasourceMutableLiveData = new MutableLiveData<>();
+    private final FindQuery findQuery;
 
-    public StockPagedDataSourceFactory(StockService baseCrudInstance, Class entityArray, FindQuery findQuery) {
+    public StockPagedDataSourceFactory(StockService baseCrudInstance, FindQuery findQuery) {
         this.stockService = baseCrudInstance;
         this.findQuery = findQuery;
-    }
-
-    public StockPagedDataSourceFactory(StockService baseCrudInstance, Class entityArray) {
-        this(baseCrudInstance, entityArray, null);
     }
 
     public StockListDatasource getDataSource() {

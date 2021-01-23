@@ -14,9 +14,9 @@ import com.stockapp.services.StockService;
 
 public class StockListDatasource extends PageKeyedDataSource<Integer, StockListItem> {
 
-    private static final String TAG = "BasePagedDatasource";
-    private StockService stockService;
-    private MutableLiveData<ResourceStatus> networkState;
+    private static final String TAG = "StockListDatasource";
+    private final StockService stockService;
+    private final MutableLiveData<ResourceStatus> networkState;
     private FindQuery findQuery;
 
     StockListDatasource(StockService stockService) {

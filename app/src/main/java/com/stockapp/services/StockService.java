@@ -34,8 +34,12 @@ public class StockService {
             public void onResponse(@NonNull Call<StockListResponse> call, @NonNull Response<StockListResponse> response) {
                 if (response.isSuccessful()) {
                     baseResponseMutableLiveData.setValue(Resource.success(response.body()));
+                    if (callback != null)
+                        callback.complete(response.body());
                 } else {
                     baseResponseMutableLiveData.setValue(Resource.error(null, null));
+                    if (callback != null)
+                        callback.complete(null);
                 }
             }
 
@@ -43,6 +47,8 @@ public class StockService {
             public void onFailure(@NonNull Call<StockListResponse> call, @NonNull Throwable t) {
                 //todo add error model here
                 baseResponseMutableLiveData.setValue(Resource.error(null, null));
+                if (callback != null)
+                    callback.complete(null);
             }
         });
         return baseResponseMutableLiveData;
