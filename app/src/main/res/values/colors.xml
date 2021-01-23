@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="loadingColor">#dddddd</color>
+    <color name="loadingColor">#F1F0F1</color>
     <color name="colorGreen">#00C691</color>
     <color name="colorRed">@android:color/holo_red_dark</color>
     <!--    text emphasis color levels-->
