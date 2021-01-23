@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
 
@@ -63,7 +63,9 @@
                         android:text="@{stock.name}"
                         android:textColor="@color/highEmphasis"
                         android:textSize="16sp"
-                        tools:text="Apple" />
+                        android:maxLength="25"
+                        android:ellipsize="end"
+                        tools:text="Apple is the followign shitkskdkkdkdkdkkdkdkkd" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,7 +88,7 @@
                             android:layout_marginEnd="12dp"
                             android:layout_marginRight="12dp"
                             android:text="@{stock.getFormattedPrice()}"
-                            android:textColor="@color/mediumEmphasis"
+                            android:textColor="@color/highEmphasis"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             tools:text="$157.00" />
@@ -119,11 +121,13 @@
                     android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/rounded_rectangle"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_add_black_18dp" />
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add_black_18dp"
+                    android:layout_marginRight="12dp" />
 
             </RelativeLayout>
 
