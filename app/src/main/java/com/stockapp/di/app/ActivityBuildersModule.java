@@ -1,8 +1,11 @@
 package com.stockapp.di.app;
 
 import com.stockapp.HomeActivity;
+import com.stockapp.SearchActivity;
 import com.stockapp.di.explore.ExploreFragmentBuildersModule;
 import com.stockapp.di.explore.ExploreViewModelsModule;
+import com.stockapp.di.search.SearchFragmentBuildersModule;
+import com.stockapp.di.search.SearchViewModelsModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,6 +15,9 @@ abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(modules = {ExploreFragmentBuildersModule.class, ExploreViewModelsModule.class})
     abstract HomeActivity contributesHomeActivity();
+
+    @ContributesAndroidInjector(modules = {SearchFragmentBuildersModule.class, SearchViewModelsModule.class})
+    abstract SearchActivity contributesSearchActivity();
 
 
 }
