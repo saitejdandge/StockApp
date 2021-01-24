@@ -82,10 +82,9 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
         change = view.findViewById(R.id.change);
         triangle = view.findViewById(R.id.triangle);
 
-
         this.symbol = getArguments().getString("symbol");
         this.getViewModel().stockListItemMutableLiveData.setValue(getArguments().getParcelable("stock"));
-        this.getViewModel().range.setValue("5d");
+
         RecyclerView recyclerView = view.findViewById(R.id.rangesRv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         this.rangeAdapter = new RangeAdapter(Arrays.asList(new String[]{"5d", "3mo", "6mo", "1y", "5y", "max"}));
@@ -97,6 +96,7 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
         recyclerView.setAdapter(rangeAdapter);
         initCandleGraph();
         observeRange();
+        this.getViewModel().range.setValue("5d");
         observeStockListItem();
     }
 
