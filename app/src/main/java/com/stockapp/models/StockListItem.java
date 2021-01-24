@@ -65,6 +65,93 @@ public class StockListItem extends BaseModel implements Parcelable {
     private String logo;
 
     protected StockListItem(Parcel in) {
+        companyCode = in.readString();
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        if (in.readByte() == 0) {
+            volume = null;
+        } else {
+            volume = in.readDouble();
+        }
+        marketCap = in.readString();
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            priceDiff = null;
+        } else {
+            priceDiff = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            change = null;
+        } else {
+            change = in.readDouble();
+        }
+        exchange = in.readString();
+        if (in.readByte() == 0) {
+            mcap = null;
+        } else {
+            mcap = in.readDouble();
+        }
+        ticker = in.readString();
+        logo = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(companyCode);
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        if (volume == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(volume);
+        }
+        dest.writeString(marketCap);
+        if (price == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(price);
+        }
+        if (priceDiff == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(priceDiff);
+        }
+        if (change == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(change);
+        }
+        dest.writeString(exchange);
+        if (mcap == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(mcap);
+        }
+        dest.writeString(ticker);
+        dest.writeString(logo);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getCompanyCode() {
@@ -98,10 +185,10 @@ public class StockListItem extends BaseModel implements Parcelable {
     public String getFormattedChange() {
         try {
             DecimalFormat f = new DecimalFormat("#.00");
-            String s="";
-            if(this.change!=null)
-                s+=f.format(this.change) + "% ";
-            s+=("($" + f.format(this.priceDiff) + ")");
+            String s = "";
+            if (this.change != null)
+                s += f.format(this.change) + "% ";
+            s += ("($" + f.format(this.priceDiff) + ")");
             return s;
         } catch (Exception e) {
             Log.v("etest", e.getLocalizedMessage() + " " + this.change + " " + this.priceDiff);
@@ -138,12 +225,4 @@ public class StockListItem extends BaseModel implements Parcelable {
         return logo;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-    }
 }

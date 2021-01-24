@@ -13,6 +13,6 @@ public class StockDetailsActivity extends DaggerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_details);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, StockDetailsFragment.newInstance(getIntent().getExtras().getString("symbol"))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, StockDetailsFragment.newInstance(getIntent().getExtras().getParcelable("stock"))).commit();
     }
 }

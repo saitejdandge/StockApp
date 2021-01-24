@@ -3,9 +3,11 @@ package com.stockapp.ui.stock_details;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -26,6 +29,9 @@ import com.github.mikephil.charting.data.CandleEntry;
 import com.sdk.base.BaseFragment;
 import com.sdk.network.Resource;
 import com.stockapp.R;
+import com.stockapp.adapters.StockDetailsMetaDataAdapter;
+import com.stockapp.models.StockListItem;
+import com.stockapp.models.stock_details.Meta;
 import com.stockapp.network.responses.StockDetailsResponse;
 
 import java.util.ArrayList;
@@ -36,12 +42,18 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
 
     CandleStickChart candleStickChart;
     String symbol;
+    RangeAdapter rangeAdapter;
+    private StockDetailsMetaDataAdapter metaDataAdapter;
 
-    public static StockDetailsFragment newInstance(String symbolName) {
+    private ImageView logo, triangle;
+    private TextView name, price, desc, change;
+
+    public static StockDetailsFragment newInstance(StockListItem stockListItem) {
 
         Bundle args = new Bundle();
         StockDetailsFragment fragment = new StockDetailsFragment();
-        args.putString("symbol", symbolName);
+        args.putString("symbol", stockListItem.getTicker());
+        args.putParcelable("stock", stockListItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,20 +70,51 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
         return StockDetailsViewModel.class;
     }
 
-    RangeAdapter rangeAdapter;
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         candleStickChart = view.findViewById(R.id.candle_stick_chart);
+
+        name = view.findViewById(R.id.name);
+        price = view.findViewById(R.id.price);
+        desc = view.findViewById(R.id.desc);
+        logo = view.findViewById(R.id.logo);
+        change = view.findViewById(R.id.change);
+        triangle = view.findViewById(R.id.triangle);
+
+
         this.symbol = getArguments().getString("symbol");
-        this.getViewModel().range.setValue("1d");
+        this.getViewModel().stockListItemMutableLiveData.setValue(getArguments().getParcelable("stock"));
+        this.getViewModel().range.setValue("5d");
         RecyclerView recyclerView = view.findViewById(R.id.rangesRv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        this.rangeAdapter = new RangeAdapter(Arrays.asList(new String[]{"1d", "5d", "3mo", "6mo", "1y", "5y", "max"}));
+        this.rangeAdapter = new RangeAdapter(Arrays.asList(new String[]{"5d", "3mo", "6mo", "1y", "5y", "max"}));
+        this.metaDataAdapter = new StockDetailsMetaDataAdapter();
+        RecyclerView metaRv = view.findViewById(R.id.metaDataRv);
+        metaRv.setAdapter(metaDataAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
+        metaRv.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(rangeAdapter);
         initCandleGraph();
         observeRange();
+        observeStockListItem();
+    }
+
+    private void observeStockListItem() {
+        this.getViewModel().stockListItemMutableLiveData.observe(getViewLifecycleOwner(), stockListItem -> {
+            name.setText(stockListItem.getName());
+            price.setText(stockListItem.getFormattedPrice());
+            change.setText(stockListItem.getFormattedChange());
+            desc.setText(stockListItem.getTicker() + " |" + stockListItem.getMarketCap());
+            Glide.with(getActivity()).load(stockListItem.getLogo()).into(logo);
+            if (stockListItem.getChange() == null || stockListItem.getChange() >= 0) {
+                change.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
+                triangle.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.green_triangle));
+            } else {
+                change.setTextColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+                triangle.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.red_triangle));
+            }
+        });
     }
 
     private void observeRange() {
@@ -82,14 +125,26 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
                 public void onChanged(Resource<StockDetailsResponse> resource) {
                     if (resource != null && resource.isSuccess()) {
                         setCandleData(resource.getResponse());
+                        setMetaData(resource.getResponse().chart.result.get(0).meta);
                     } else {
                         candleStickChart.setData(null);
                         candleStickChart.invalidate();
                         Toast.makeText(getContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
                     }
                 }
+
             });
         });
+    }
+
+    private void setMetaData(Meta meta) {
+
+        List<Pair<String, String>> data = new ArrayList<>();
+        data.add(new Pair("Stock Symbol", meta.symbol));
+        data.add(new Pair("Regular Market Price", "$" + meta.regularMarketPrice));
+        data.add(new Pair("Previous Close", "$" + meta.previousClose));
+        metaDataAdapter.setData(data);
+
     }
 
     private void initCandleGraph() {
@@ -107,7 +162,7 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
         xAxis.setDrawGridLines(false);// disable x axis grid lines
         xAxis.setDrawLabels(false);
         rightAxis.setTextColor(Color.WHITE);
-        yAxis.setDrawLabels(false);
+        yAxis.setDrawLabels(true);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setAvoidFirstLastClipping(true);

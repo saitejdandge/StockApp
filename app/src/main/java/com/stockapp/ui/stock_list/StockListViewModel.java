@@ -23,22 +23,22 @@ import javax.inject.Inject;
 
 public class StockListViewModel extends BaseViewModel {
 
+    private final MutableLiveData<String> searchQuery;
     private StockPagedDataSourceFactory basePagedDataSourceFactory;
     private LiveData<ResourceStatus> networkState;
     private LiveData<PagedList<StockListItem>> stockList;
-    private final MutableLiveData<String> searchQuery;
     private MutableLiveData<Boolean> isWatchList;
     private StockRepo stockRepo;
-
-    public MutableLiveData<Boolean> getIsWatchList() {
-        return isWatchList;
-    }
 
     @Inject
     StockListViewModel(StockRepo stockRepo) {
         searchQuery = new MutableLiveData<>();
         isWatchList = new MutableLiveData<>();
         this.stockRepo = stockRepo;
+    }
+
+    public MutableLiveData<Boolean> getIsWatchList() {
+        return isWatchList;
     }
 
     public void loadStocks(Boolean isWatchList, HashMap<String, StockListItem> watchListData) {

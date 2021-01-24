@@ -1,4 +1,5 @@
 package com.stockapp.models.stock_details;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
