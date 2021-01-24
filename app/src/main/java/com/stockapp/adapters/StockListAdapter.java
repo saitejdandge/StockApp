@@ -64,6 +64,7 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
             {
                 Intent intent = new Intent(v.getContext(), StockDetailsActivity.class);
                 intent.putExtra(POST_DATA, getItem(position));
+                intent.putExtra("symbol", stockListItem.getTicker());
                 v.getContext().startActivity(intent);
             });
             if (this.sharedPreferences.getAll().keySet() != null && this.sharedPreferences.getAll().containsKey(stockListItem.getId() + "")) {

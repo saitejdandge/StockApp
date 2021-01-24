@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.sdk.network.FindQuery;
 import com.sdk.network.Resource;
 import com.stockapp.network.apis.StockApi;
+import com.stockapp.network.responses.StockDetailsResponse;
 import com.stockapp.network.responses.StockListResponse;
 import com.stockapp.paging.SCallback;
 
@@ -61,6 +62,40 @@ public class StockService {
             }
         });
         return baseResponseMutableLiveData;
+    }
+
+    public MutableLiveData<Resource<StockDetailsResponse>> getStockDetails(String symbol, String interval, String range) {
+
+        final MutableLiveData<Resource<StockDetailsResponse>> responseMutableLiveData = new MutableLiveData<>();
+
+        HashMap<String, String> queryMap = new HashMap<>();
+        queryMap.put("symbol", symbol);
+        queryMap.put("interval", interval);
+        queryMap.put("range", range);
+        queryMap.put("region", "IN");
+        HashMap<String, String> headerMap = new HashMap<>();
+        headerMap.put("x-rapidapi-key", "1Dnz7LuzBVmshia88a9IKqmf7n82p1v8KSGjsnP7R2gBashGJA");
+        headerMap.put("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
+        headerMap.put("useQueryString", "true");
+
+        stockApi.getStockDetails(headerMap, "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-charts", queryMap)
+                .enqueue(new Callback<StockDetailsResponse>() {
+                    @Override
+                    public void onResponse(Call<StockDetailsResponse> call, Response<StockDetailsResponse> response) {
+                        if (response.isSuccessful() && response.body().isSuccess()) {
+                            responseMutableLiveData.setValue(Resource.success(response.body()));
+                        } else {
+                            responseMutableLiveData.setValue(Resource.error(null, null));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<StockDetailsResponse> call, Throwable t) {
+                        responseMutableLiveData.setValue(Resource.error(null, null));
+                    }
+                });
+
+        return responseMutableLiveData;
     }
 
 }

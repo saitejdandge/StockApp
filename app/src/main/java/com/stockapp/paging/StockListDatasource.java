@@ -68,6 +68,7 @@ public class StockListDatasource extends PageKeyedDataSource<Integer, StockListI
                 }
             });
         else {
+            //
             List<StockListItem> result = new ArrayList<>();
             result.addAll(watchList.values());
             Log.v("ptest", result.size() + "");

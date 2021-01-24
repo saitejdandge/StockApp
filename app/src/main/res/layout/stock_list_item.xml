@@ -71,9 +71,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@{stock.marketCap}"
+                        android:text="@{stock.ticker+` | ` +stock.marketCap}"
                         android:textSize="12sp"
-                        tools:text="Mid Cap" />
+                        tools:text="AAPL | Mid Cap" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

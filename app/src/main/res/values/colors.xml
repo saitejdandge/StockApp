@@ -15,4 +15,5 @@
     <color name="mediumEmphasis">#99000000</color>
 
     <color name="searchBg">#F1F0F1</color>
+    <color name="dividerColor">#DADADA</color>
 </resources>

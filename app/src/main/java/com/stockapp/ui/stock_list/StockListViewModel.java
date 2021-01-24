@@ -1,8 +1,6 @@
 package com.stockapp.ui.stock_list;
 
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -14,6 +12,7 @@ import com.sdk.base.BaseViewModel;
 import com.sdk.network.FindQuery;
 import com.sdk.network.ResourceStatus;
 import com.stockapp.models.StockListItem;
+import com.stockapp.paging.StockListDatasource;
 import com.stockapp.paging.StockPagedDataSourceFactory;
 import com.stockapp.repositories.StockRepo;
 
@@ -36,10 +35,9 @@ public class StockListViewModel extends BaseViewModel {
     }
 
     @Inject
-    StockListViewModel(Application application, StockRepo stockRepo) {
-        super(application);
+    StockListViewModel(StockRepo stockRepo) {
         searchQuery = new MutableLiveData<>();
-        isWatchList=new MutableLiveData<>();
+        isWatchList = new MutableLiveData<>();
         this.stockRepo = stockRepo;
     }
 
@@ -49,7 +47,7 @@ public class StockListViewModel extends BaseViewModel {
         // Initial page size to fetch can also be configured here too
         PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(true).setPrefetchDistance(5).build();
         stockList = new LivePagedListBuilder(basePagedDataSourceFactory, config).build();
-        networkState = Transformations.switchMap(basePagedDataSourceFactory.getBasePagedDatasourceMutableLiveData(), dataSource -> dataSource.getNetworkState());
+        networkState = Transformations.switchMap(basePagedDataSourceFactory.getBasePagedDatasourceMutableLiveData(), StockListDatasource::getNetworkState);
     }
 
     public MutableLiveData<String> getSearchQuery() {
