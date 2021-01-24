@@ -184,7 +184,7 @@ public class StockListItem extends BaseModel implements Parcelable {
 
     public String getFormattedChange() {
         try {
-            DecimalFormat f = new DecimalFormat("#.00");
+            DecimalFormat f = new DecimalFormat("#0.00");
             String s = "";
             if (this.change != null)
                 s += f.format(this.change) + "% ";

@@ -105,7 +105,7 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
             name.setText(stockListItem.getName());
             price.setText(stockListItem.getFormattedPrice());
             change.setText(stockListItem.getFormattedChange());
-            desc.setText(stockListItem.getTicker() + " |" + stockListItem.getMarketCap());
+            desc.setText(stockListItem.getTicker() + " | " + stockListItem.getMarketCap());
             Glide.with(getActivity()).load(stockListItem.getLogo()).into(logo);
             if (stockListItem.getChange() == null || stockListItem.getChange() >= 0) {
                 change.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
