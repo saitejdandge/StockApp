@@ -35,7 +35,7 @@
                 android:drawablePadding="8dp"
                 android:drawableTint="@color/mediumEmphasis"
                 android:gravity="center_vertical"
-                android:hint="Search Stocks"
+                android:hint="@string/search_stocks"
                 android:textSize="14sp" />
 
             <ImageView

@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 @Singleton
 public class StockRepo {
-    private StockService stockService;
+    private final StockService stockService;
 
     @Inject
     public StockRepo(StockService stockService) {

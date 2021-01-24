@@ -19,19 +19,18 @@ import com.stockapp.R;
 import com.stockapp.databinding.StockListItemBinding;
 import com.stockapp.models.StockListItem;
 import com.stockapp.ui.activities.StockDetailsActivity;
+import com.stockapp.utils.Constants;
 
 import javax.inject.Inject;
 
 public class StockListAdapter extends PagedListAdapter<StockListItem, StockListAdapter.StockListViewHolder> {
 
-    private static final String POST_DATA = "stock";
-    private static DiffUtil.ItemCallback<StockListItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<StockListItem>() {
+    private static final DiffUtil.ItemCallback<StockListItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<StockListItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull StockListItem oldItem, @NonNull StockListItem newItem) {
             return !oldItem.getId().equals(newItem.getId());
         }
 
-        //todo add equality check
         @SuppressLint("DiffUtilEquals")
         @Override
         public boolean areContentsTheSame(@NonNull StockListItem oldItem, @NonNull StockListItem newItem) {
@@ -44,7 +43,7 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
     @Inject
     public StockListAdapter(Context context) {
         super(DIFF_CALLBACK);
-        sharedPreferences = context.getSharedPreferences("list", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(Constants.LIST, Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -63,7 +62,7 @@ public class StockListAdapter extends PagedListAdapter<StockListItem, StockListA
             holder.itemView.setOnClickListener(v ->
             {
                 Intent intent = new Intent(v.getContext(), StockDetailsActivity.class);
-                intent.putExtra(POST_DATA, getItem(position));
+                intent.putExtra(Constants.STOCK, getItem(position));
                 v.getContext().startActivity(intent);
             });
             if (this.sharedPreferences.getAll().keySet() != null && this.sharedPreferences.getAll().containsKey(stockListItem.getId() + "")) {

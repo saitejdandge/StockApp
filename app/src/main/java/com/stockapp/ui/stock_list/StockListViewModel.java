@@ -27,8 +27,8 @@ public class StockListViewModel extends BaseViewModel {
     private StockPagedDataSourceFactory basePagedDataSourceFactory;
     private LiveData<ResourceStatus> networkState;
     private LiveData<PagedList<StockListItem>> stockList;
-    private MutableLiveData<Boolean> isWatchList;
-    private StockRepo stockRepo;
+    private final MutableLiveData<Boolean> isWatchList;
+    private final StockRepo stockRepo;
 
     @Inject
     StockListViewModel(StockRepo stockRepo) {

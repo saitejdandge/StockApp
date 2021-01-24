@@ -1,5 +1,7 @@
 package com.stockapp.di.app;
 
+import com.stockapp.utils.Constants;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -25,7 +27,7 @@ abstract class AppModule {
 
         return new Retrofit
                 .Builder()
-                .baseUrl("https://indiawealth.in/")
+                .baseUrl(Constants.INDIA_WEALTH_BASE_URL)
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create()).build();
     }

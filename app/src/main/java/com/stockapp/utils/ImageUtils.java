@@ -15,7 +15,7 @@ public class ImageUtils {
 
     private static RequestOptions getRequestOptions() {
         if (requestOptions == null)
-            requestOptions = RequestOptions.placeholderOf(R.drawable.image_place_holder).error(R.drawable.image_place_holder);
+            requestOptions = RequestOptions.placeholderOf(R.drawable.image_place_holder).error(R.drawable.empty_state);
         return requestOptions;
     }
 

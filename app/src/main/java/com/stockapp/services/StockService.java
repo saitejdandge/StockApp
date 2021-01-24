@@ -1,14 +1,22 @@
 package com.stockapp.services;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import com.sdk.network.ErrorModel;
 import com.sdk.network.FindQuery;
 import com.sdk.network.Resource;
+import com.stockapp.R;
 import com.stockapp.network.apis.StockApi;
 import com.stockapp.network.responses.StockDetailsResponse;
 import com.stockapp.network.responses.StockListResponse;
 import com.stockapp.paging.SCallback;
+import com.stockapp.utils.Constants;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -22,11 +30,14 @@ import retrofit2.Response;
 @Singleton
 public class StockService {
 
-    private StockApi stockApi;
+    private final StockApi stockApi;
+
+    Application application;
 
     @Inject
-    StockService(StockApi stockApi) {
+    StockService(Application application, StockApi stockApi) {
         this.stockApi = stockApi;
+        this.application = application;
     }
 
 
@@ -47,7 +58,12 @@ public class StockService {
                     if (callback != null)
                         callback.complete(response.body());
                 } else {
-                    baseResponseMutableLiveData.setValue(Resource.error(null, null));
+                    ErrorModel errorModel = new ErrorModel.ErrorModelBuilder()
+                            .title(Constants.STANDARD_TITLE)
+                            .subTitle(Constants.STANDARD_MESSAGE)
+                            .image(ContextCompat.getDrawable(application, R.drawable.empty_state))
+                            .build();
+                    baseResponseMutableLiveData.setValue(Resource.error(errorModel, null));
                     if (callback != null)
                         callback.complete(null);
                 }
@@ -55,8 +71,12 @@ public class StockService {
 
             @Override
             public void onFailure(@NonNull Call<StockListResponse> call, @NonNull Throwable t) {
-                //todo add error model here
-                baseResponseMutableLiveData.setValue(Resource.error(null, null));
+                ErrorModel errorModel = new ErrorModel.ErrorModelBuilder()
+                        .title(Constants.STANDARD_TITLE)
+                        .subTitle(Constants.STANDARD_MESSAGE)
+                        .image(ContextCompat.getDrawable(application, R.drawable.empty_state))
+                        .build();
+                baseResponseMutableLiveData.setValue(Resource.error(errorModel, null));
                 if (callback != null)
                     callback.complete(null);
             }
@@ -72,16 +92,16 @@ public class StockService {
         queryMap.put("symbol", symbol);
         queryMap.put("interval", interval);
         queryMap.put("range", range);
-        queryMap.put("region", "IN");
+        queryMap.put("region", Constants.REGION_IND);
         HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("x-rapidapi-key", "1Dnz7LuzBVmshia88a9IKqmf7n82p1v8KSGjsnP7R2gBashGJA");
-        headerMap.put("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
+        headerMap.put("x-rapidapi-key", Constants.RAPID_API_KEY);
+        headerMap.put("x-rapidapi-host", Constants.RAPID_API_HOST);
         headerMap.put("useQueryString", "true");
 
-        stockApi.getStockDetails(headerMap, "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-charts", queryMap)
+        stockApi.getStockDetails(headerMap, Constants.YAHOO_FINANCE_URL, queryMap)
                 .enqueue(new Callback<StockDetailsResponse>() {
                     @Override
-                    public void onResponse(Call<StockDetailsResponse> call, Response<StockDetailsResponse> response) {
+                    public void onResponse(@NotNull Call<StockDetailsResponse> call, @NotNull Response<StockDetailsResponse> response) {
                         if (response.isSuccessful() && response.body().isSuccess()) {
                             responseMutableLiveData.setValue(Resource.success(response.body()));
                         } else {
@@ -90,7 +110,7 @@ public class StockService {
                     }
 
                     @Override
-                    public void onFailure(Call<StockDetailsResponse> call, Throwable t) {
+                    public void onFailure(@NotNull Call<StockDetailsResponse> call, @NotNull Throwable t) {
                         responseMutableLiveData.setValue(Resource.error(null, null));
                     }
                 });

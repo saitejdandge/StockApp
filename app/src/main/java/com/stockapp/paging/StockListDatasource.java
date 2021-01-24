@@ -71,7 +71,6 @@ public class StockListDatasource extends PageKeyedDataSource<Integer, StockListI
             //
             List<StockListItem> result = new ArrayList<>();
             result.addAll(watchList.values());
-            Log.v("ptest", result.size() + "");
             networkState.postValue(ResourceStatus.SUCCESS);
             callback.onResult(result, null, 1);
         }

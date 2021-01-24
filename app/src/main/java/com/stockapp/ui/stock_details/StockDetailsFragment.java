@@ -33,6 +33,7 @@ import com.stockapp.adapters.StockDetailsMetaDataAdapter;
 import com.stockapp.models.StockListItem;
 import com.stockapp.models.stock_details.Meta;
 import com.stockapp.network.responses.StockDetailsResponse;
+import com.stockapp.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,8 +53,8 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
 
         Bundle args = new Bundle();
         StockDetailsFragment fragment = new StockDetailsFragment();
-        args.putString("symbol", stockListItem.getTicker());
-        args.putParcelable("stock", stockListItem);
+        args.putString(Constants.SYMBOL, stockListItem.getTicker());
+        args.putParcelable(Constants.STOCK, stockListItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,8 +83,8 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
         change = view.findViewById(R.id.change);
         triangle = view.findViewById(R.id.triangle);
 
-        this.symbol = getArguments().getString("symbol");
-        this.getViewModel().stockListItemMutableLiveData.setValue(getArguments().getParcelable("stock"));
+        this.symbol = getArguments().getString(Constants.SYMBOL);
+        this.getViewModel().stockListItemMutableLiveData.setValue(getArguments().getParcelable(Constants.STOCK));
 
         RecyclerView recyclerView = view.findViewById(R.id.rangesRv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -129,7 +130,7 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
                     } else {
                         candleStickChart.setData(null);
                         candleStickChart.invalidate();
-                        Toast.makeText(getContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), Constants.STANDARD_MESSAGE, Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -140,9 +141,9 @@ public class StockDetailsFragment extends BaseFragment<StockDetailsViewModel> {
     private void setMetaData(Meta meta) {
 
         List<Pair<String, String>> data = new ArrayList<>();
-        data.add(new Pair("Stock Symbol", meta.symbol));
-        data.add(new Pair("Regular Market Price", "$" + meta.regularMarketPrice));
-        data.add(new Pair("Previous Close", "$" + meta.previousClose));
+        data.add(new Pair<>("Stock Symbol", meta.symbol));
+        data.add(new Pair<>("Regular Market Price", "$" + meta.regularMarketPrice));
+        data.add(new Pair<>("Previous Close", "$" + meta.previousClose));
         metaDataAdapter.setData(data);
 
     }

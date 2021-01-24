@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.stockapp.R;
 import com.stockapp.ui.stock_details.StockDetailsFragment;
+import com.stockapp.utils.Constants;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -13,6 +14,6 @@ public class StockDetailsActivity extends DaggerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_details);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, StockDetailsFragment.newInstance(getIntent().getExtras().getParcelable("stock"))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, StockDetailsFragment.newInstance(getIntent().getExtras().getParcelable(Constants.STOCK))).commit();
     }
 }

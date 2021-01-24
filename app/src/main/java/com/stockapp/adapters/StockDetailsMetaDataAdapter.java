@@ -39,8 +39,8 @@ public class StockDetailsMetaDataAdapter extends RecyclerView.Adapter<StockDetai
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.loadingColor));
         } else
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
-        holder.left.setText(data.get(position).first + "");
-        holder.right.setText(data.get(position).second + "");
+        holder.left.setText(data.get(position).first);
+        holder.right.setText(data.get(position).second);
 
     }
 

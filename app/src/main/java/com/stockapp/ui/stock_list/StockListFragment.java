@@ -30,7 +30,6 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
     ViewModelProviderFactory viewModelProviderFactory;
     private View loadingView;
     private View errorView;
-    private TextInputEditText searchEditText;
     private SwipeRefreshLayout swipeRefreshLayout;
     private StockListAdapter stockListAdapter;
 
@@ -51,7 +50,7 @@ public class StockListFragment extends BaseFragment<StockListViewModel> {
         stockListAdapter = new StockListAdapter(getContext());
         recyclerView = view.findViewById(R.id.recyclerView);
         loadingView = view.findViewById(R.id.loadingView);
-        searchEditText = view.findViewById(R.id.searchEditText);
+        TextInputEditText searchEditText = view.findViewById(R.id.searchEditText);
         errorView = view.findViewById(R.id.errorView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         View retry = view.findViewById(R.id.retry);

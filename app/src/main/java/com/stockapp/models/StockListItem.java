@@ -2,7 +2,6 @@ package com.stockapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -154,9 +153,6 @@ public class StockListItem extends BaseModel implements Parcelable {
         return 0;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
-    }
 
     public Integer getId() {
         return id;
@@ -166,17 +162,10 @@ public class StockListItem extends BaseModel implements Parcelable {
         return name;
     }
 
-    public Double getVolume() {
-        return volume;
-    }
-
     public String getMarketCap() {
         return marketCap;
     }
 
-    public Object getSector() {
-        return sector;
-    }
 
     public String getFormattedPrice() {
         return "$ " + this.price + "";
@@ -191,31 +180,15 @@ public class StockListItem extends BaseModel implements Parcelable {
             s += ("($" + f.format(this.priceDiff) + ")");
             return s;
         } catch (Exception e) {
-            Log.v("etest", e.getLocalizedMessage() + " " + this.change + " " + this.priceDiff);
             e.printStackTrace();
             return "";
         }
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Double getPriceDiff() {
-        return priceDiff;
     }
 
     public Double getChange() {
         return change;
     }
 
-    public String getExchange() {
-        return exchange;
-    }
-
-    public Double getMcap() {
-        return mcap;
-    }
 
     public String getTicker() {
         return ticker;

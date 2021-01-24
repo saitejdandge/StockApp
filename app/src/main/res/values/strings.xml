@@ -5,4 +5,5 @@
 
     <string name="standard_error_message">Something wen\'t wrong, please try again.</string>
     <string name="retry">Retry</string>
+    <string name="search_stocks">Seach Stock, Eg:Google</string>
 </resources>
